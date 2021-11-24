@@ -1,130 +1,233 @@
-##
-#    Embedded Systems Development
-#    Exercise : Task 5.3D - Blink Morse Code Using GUI
-#    Name : Ereena Bagga
-#    Student ID : 2010993040
-##
-
-from tkinter import *
-import tkinter.font as FONT
 import RPi.GPIO as GPIO
-from gpiozero import LED
 import time
+from tkinter import *
+import tkinter.font
+from gpiozero import LED
 
-# Use "GPIO" pin numbering
 GPIO.setmode(GPIO.BCM)
+myled = LED(18)
 
-# GUI Defintions
-win = Tk()
-win.title("BLINK MORSE CODE")
-myFont = FONT.Font(family = 'Helvetica', size = 14, weight = 'bold')
+mywin = Tk()
+mywin.title("Morse Code GUI")
+myFont = tkinter.font.Font(family = "Georgia", size = 22, weight = "bold")
+inputFont = tkinter.font.Font(family = "Arial", size = 16)
+mywin.minsize(540, 420)
+mywin.configure(bg = "white")
 
-# LED Pin Definition
-led = LED(12)
-
-# Declare input string to be translated into morse code
-inputString = StringVar()
-
-# Declare duration for dot as 1 second
-dotDuration = 1
-
-# Declare duration for dash as 3*dotDuration, i.e., 3 seconds
-dashDuration = dotDuration * 3
-
-# List for letters 'A' to 'Z' in morse code
-letters = [".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..",
-  ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.",
-  "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.."]
-
-# List for numbers 0 to 9 in morse code
-numbers = ["-----", ".----", "..---", "...--", "....-", ".....", "-....",
-  "--...", "---..", "----."]
-
-# Event Functions
-
-# This method flashes the morse code for the input letter or number
-def blinkMorseCode(morseCode):
+def dot():
+    myled.on()
+    time.sleep(0.5)
+    myled.off()
+    time.sleep(0.15)
     
-  # Iterating through the entire string of morse code
-  for char in morseCode:
-    # Turn on the LED
-    led.on()
-
-    # If the given character is a dot
-    if (char == '.'):
-      # Give a delay for 1 second
-      time.sleep(dotDuration)
-
-    # Else if the given character is a dash
-    else:
-      # Give a delay for 3 seconds
-      time.sleep(dashDuration)
-
-    # Turn the led off
-    led.off()
-
-    # A delay of 1 second is given after blinking each part of a character
-    time.sleep(dotDuration)
-
-  # A delay of 3 seconds is given after blinking each character
-  time.sleep(dashDuration)
-
-# This method translates the input string into morse code
-def translateMorseCode():
+def dash():
+    myled.on()
+    time.sleep(1.5)
+    myled.off()
+    time.sleep(0.15)
     
-    inputString = morseCode.get()
+def a():
+    dot()
+    dash()
+
+def b():
+    dash()
+    dot()
+    dot()
+    dot()
+
+def c():
+    dash()
+    dot()
+    dash()
+    dot()
+
+def d():
+    dash()
+    dot()
+    dot()
+
+def e():
+    dot()
+
+def f():
+    dot()
+    dot()
+    dash()
+    dot()
     
-    # Print Input
-    print("INPUT:")
+def g():
+    dot()
+    dot()
+    dash()
+
+def h():
+    dot()
+    dot()
+    dot()
+    dot()
     
-    # Counter variable
-    i = 1
+def i():
+    dot()
+    dot()
+
+def j():
+    dot()
+    dash()
+    dash()
+    dash()
     
-    for c in inputString:
-        
-        # Translation will be done for a maximum of 12 characters
-        if (i > 12):
-          break
-        
-        print(c, end= " ")
-        
-        # If the input given belongs to uppercase letters
-        if (c >= 'A' and c <= 'Z'):
-          # Method call to blink morse code on LED
-          blinkMorseCode(letters[ord(c) - ord('A')]) 
-
-        # If the input given belongs to lowercase letters
-        elif (c >= 'a' and c <= 'z'):
-          # Method call to blink morse code on LED
-          blinkMorseCode(letters[ord(c) - ord('a')]) 
-
-        # If the input given belongs to numbers
-        elif (c >= '0' and c <= '9'):
-          # Method call to blink morse code on LED
-          blinkMorseCode(numbers[ord(c) - ord('0')]) 
-
-        # If the input given is a space between words
-        elif (c == ' '):
-          # Give a delay equal to seven dots for space
-          time.sleep(dotDuration * 7)
-          
-        i+=1
+def k():
+    dash()
+    dot()
+    dash()
     
-# This method destroys the window and sets the GPIO pins back to their intial settings
-def close():
-    GPIO.cleanup()
-    win.destroy()
+def l():
+    dot()
+    dash()
+    dot()
+    dot()
+    
+def m():
+    dash()
+    dash()
+    
+def n():
+    dash()
+    dot()
+    
+def o():
+    dash()
+    dash()
+    dash()
+    
+def p():
+    dot()
+    dash()
+    dash()
+    dot()
+    
+def q():
+    dash()
+    dash()
+    dot()
+    dash()
+    
+def r():
+    dot()
+    dash()
+    dot()
+    
+def s():
+    dot()
+    dot()
+    dot()
+    
+def t():
+    dash()
+    
+def u():
+    dot()
+    dot()
+    dash()
+    
+def v():
+    dot()
+    dot()
+    dot()
+    dash()
+    
+def w():
+    dot()
+    dash()
+    dash()    
 
-# Widgets
-morseCode = Entry(win, font = myFont, width = 30)
-morseCode.grid(row = 0, column = 0)
+def x():
+    dash()
+    dot()
+    dot()
+    dash()
+    
+def y():
+    dash()
+    dot()
+    dash()
+    dash()
+    
+def z():
+    dash()
+    dash()
+    dot()
+    dot()
+    
+       
+def ledSwitch():
+    
+    blinkText = codeText.get() #range set upto 13 hence it would take values up until 12 characters
+    
+    for letter in blinkText:
+        print(letter, " ")
+        if letter == "a":
+            a()
+        elif letter == "b":
+            b()
+        elif letter == "c":
+            c()
+        elif letter == "d":
+            d()
+        elif letter == "e":
+            e()
+        elif letter == "f":
+            f()
+        elif letter == "g":
+            g()
+        elif letter == "h":
+            h()
+        elif letter == "i":
+            i()
+        elif letter == "j":
+            j()
+        elif letter == "k":
+            k()
+        elif letter == "l":
+            l()
+        elif letter == "m":
+            m()
+            
+        elif letter == "n":
+            n()
+        elif letter == "o":
+            o()
+        elif letter == "p":
+            p()
+        elif letter == "q":
+            q()
+        elif letter == "r":
+            r()
+        elif letter == "s":
+            s()
+        elif letter == "t":
+            t()
+        elif letter == "u":
+            u()
+        elif letter == "v":
+            v()
+        elif letter == "w":
+            w()
+        elif letter == "x":
+            x()
+        elif letter == "y":
+            y()
+        elif letter == "z":
+            z()
+        time.sleep(3.5)
 
-morseCodeButton = Button(win, text = 'LOAD MORSE CODE', font = myFont, command = translateMorseCode, bg = 'bisque2', height = 2, width = 30)
-morseCodeButton.grid(row = 0, column = 1)
+codeText = Entry(mywin, width=12, font = inputFont)
+codeText.grid(row = 3, column = 50)
+codeText.grid(padx = 20,pady = 20)
+    
+button= Button(mywin, text = "Start Blinking", font = myFont, command = ledSwitch, bg = "blue" , height = 2, width = 10)
+button.grid(row = 5, column = 50)
+codeText.grid(padx = 20, pady =20)
 
-exitButton = Button(win, text = 'EXIT', font = myFont, command = close, bg = 'red', height = 2, width = 15)
-exitButton.grid(row = 1, column = 1)
-
-win.protocol("WM_DELETE_WINDOW",close) # exit cleanly
-
-win.mainloop() # loop forever
+  
